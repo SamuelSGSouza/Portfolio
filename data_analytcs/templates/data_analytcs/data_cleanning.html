@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="email-wrapper rounded border bg-white">
+    <div class="row no-gutters justify-content-center">
+      <div class="col-lg-4 col-xl-3 col-xxl-2">
+        <form class="email-compose" action="{% url 'show_cleaned_data' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+        <div class="email-left-column email-options p-4 p-xl-5">
+        <h2 class="pb-2"> Filters <i class="mdi mdi-filter float-right"></i></h2> 
+        <ul class="pb-2">
+            <li class="d-block active mb-4">
+              <label for="handle_null_values">
+                How to handle Null Values? <i class="mdi mdi-help-circle-outline" 
+                title="Null values are values that are missing from the dataset. Examples of null values are NaN, NA, None, etc."
+                ></i>
+              </label>
+                <select class="form-control" id="handle_null_values" name="handle_null">
+                  <option value="drop">Drop</option>
+                  <option value="fill">Fill</option>
+                  <option value="Ignore" selected>Ignore</option>
+                </select>
+            </li>
+
+            <li class="d-block mb-4">
+                <label for="handle_outliers_values">
+                  How to handle outliers? <i class="mdi mdi-help-circle-outline"
+                  title="Outliers are values that are far from the mean of the dataset. Examples of outliers are 1000000, 100000, etc."
+                  ></i>
+                </label>
+                <select class="form-control" id="handle_outliers_values" name="handle_outliers">
+                  <option value="Drop">Drop</option>
+                  <option value="Ignore" selected>Ignore</option>
+                </select>
+            </li>
+
+            <li class="d-block mb-4">
+                <label for="handle_duplicated_values">
+                  How to handle duplicated values? <i class="mdi mdi-help-circle-outline"
+                  title="Duplicated values are values that are repeated in the dataset and can cause problems in the analysis."
+                  ></i>
+                </label>
+                <select class="form-control" id="handle_duplicated_values" name="handle_duplicates">
+                  <option value="Drop">Drop</option>
+                  <option value="Ignore" selected>Ignore</option>
+                </select>
+            </li>
+
+            <li class="d-block mb-4">
+                <label for="reescale">
+                  Reescale Numeric Values? <i class="mdi mdi-help-circle-outline"
+                  title="Reescale numeric values to a range between 0 and 1."
+                  ></i>
+                </label>
+                <select class="form-control" id="reescale" name="handle_reescale">
+                  <option value="Yes">Yes</option>
+                  <option value="No" selected>No</option>
+                </select>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-8 col-xl-9 col-xxl-10">
+        <div class="email-right-column  email-body p-4 p-xl-5">
+          <div class="email-body-head mb-5 ">
+            <h4 class="text-dark">New Dataset</h4>
+          </div>
+          
+            
+            <div class="email-attachment mt-4 mb-3">
+              <i class="fa fa-paperclip fa-1x"></i>
+              <label class="text-dark d-inline-block font-weight-medium pl-2">Attachment</label>
+              
+                <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                  <input type="file" name="file_selected" id="file-input" onchange="handleFileSelect()" accept=".csv" required>
+                  <label for="file-input" id="file-label">Drop your CSV file here or click to upload.</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-pill my-5" onclick="enviaForm()">Clean Dataset</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function handleDragOver(event) {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'copy';
+      document.getElementById('drop-area').classList.add('highlight');
+    }
+  
+    function handleDragLeave(event) {
+      event.preventDefault();
+      document.getElementById('drop-area').classList.remove('highlight');
+    }
+  
+    function handleDrop(event) {
+      event.preventDefault();
+      document.getElementById('drop-area').classList.remove('highlight');
+  
+      var files = event.dataTransfer.files;
+      handleFiles(files);
+    }
+  
+    function handleFileSelect() {
+      var files = document.getElementById('file-input').files;
+      handleFiles(files);
+    }
+  
+    function handleFiles(files) {
+    var dropArea = document.getElementById('drop-area');
+    var fileLabel = document.getElementById('file-label');
+
+    // Check if file is a CSV
+    if (files[0].type != 'text/csv') {
+      alert('Por favor, selecione um arquivo CSV.');
+      return;
+    }
+
+    //veificando se o arquivo é maior que 5MB
+    if (files[0].size > 5000000) {
+      alert('Por favor, selecione um arquivo menor que 5MB.');
+      return;
+    }
+
+    if (files.length > 0) {
+      var fileName = files[0].name;
+      fileLabel.innerHTML = 'Arquivo selecionado: ' + fileName;
+      dropArea.classList.add('file-selected');
+    } else {
+      fileLabel.innerHTML = 'Arraste e solte o arquivo aqui ou clique para selecionar';
+      dropArea.classList.remove('file-selected');
+    }
+  }
+  </script>
+
+
+{% endblock %}

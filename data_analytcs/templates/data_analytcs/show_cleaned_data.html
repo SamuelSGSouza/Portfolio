@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="email-wrapper rounded border bg-white">
+    <div class="row no-gutters justify-content-center">
+
+    <div class="col-lg-9 col-xl-10 col-xxl-11 p-4" id="principal"style="display:none">
+        <table id="productsTable" class="table table-hover table-product" style="width:100%">
+            <thead>
+              <tr>
+                {% for column in columns %}
+                <th>{{ column }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        {% for value in row %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-lg-9 col-xl-10 col-xxl-11 p-4" id="spin">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+
+      <div class="col-lg-3 col-xl-2 col-xxl-1 py-4 px-2" >
+        <div class="text-center">
+            <!-- Download button -->
+            <a title="Download Cleanned Data" href="{% url 'download_file' %}" class=" mb-3 btn-download"><i class="mdi mdi-download"></i> </a>
+        </div>
+         <h5 class="mb-3">Results</h5>
+         {% for suc in success %}
+        <p class="text-success"style="font-size: 13px!important;font-weight:bold"><i class="mdi mdi-check"></i> {{ suc }}</p>
+        {% endfor %}
+
+        <!--Errors-->
+        {% for err in failures %}
+        <p class="text-danger"style="font-size: 13px!important;font-weight:bold"><i class="mdi mdi-close"></i> {{ err }}</p>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+  
+
+<script>
+    //quando a janela carregar
+    window.addEventListener('load', function() {
+        //esconde o loading
+        let table = new DataTable('#productsTable');
+
+        //durante os primeiros 5 segundos, esconde a tabela e mostra o loading
+        setTimeout(function() {
+            document.getElementById('spin').style.display = 'none';
+            document.getElementById('principal').style.display = 'block';
+        }, 1000);
+
+    });
+</script>
+{% endblock %}
