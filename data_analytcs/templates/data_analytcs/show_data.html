@@ -4,9 +4,9 @@
 <div class="email-wrapper rounded border bg-white">
     <div class="row no-gutters justify-content-center">
 
-    <div class="col-lg-9 col-xl-10 col-xxl-11" id="principal"style="display:none">
+    <div class="col-lg-9 col-xl-10 col-xxl-11 {% if title == 'Show Cleaned Data' %}p-4{% endif %}" id="principal"style="display:none">
         {% if title == "Show Cleaned Data" %}
-            <table id="productsTable" class="table table-hover table-product m-4" style="width:100%">
+            <table id="productsTable" class="table table-hover table-product" style="width:100%">
                 <thead>
                 <tr>
                     {% for column in columns %}

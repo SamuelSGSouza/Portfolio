@@ -49,8 +49,7 @@ class Cleaning():
 
 
         #limpando as colunas
-        self.limpa_colunas()
-
+        self.clean_columns()
         #setando os tipos
         self.set_types()
 
@@ -110,7 +109,7 @@ class Cleaning():
             self.failures.append(f"Unknown error while reading file.")
             return False
             
-    def limpa_colunas(self) -> dict:
+    def clean_columns(self) -> dict:
         try:
             df = self.df
             #substituindo /r e /n por ""
@@ -236,14 +235,12 @@ class Cleaning():
             for col in self.df.columns:
                 num_types = ['float64', 'int64', 'int32', 'float32']
                 if self.df[col].dtype in num_types:
-                    print("shape antes: ", self.df.shape)
                     q1 = self.df[col].quantile(0.25)
                     q3 = self.df[col].quantile(0.75)
                     iqr = q3 - q1
                     lower_bound = q1 - (1.5 * iqr)
                     upper_bound = q3 + (1.5 * iqr)
                     self.df = self.df[(self.df[col] > lower_bound) & (self.df[col] < upper_bound)]
-                    print("shape depois: ", self.df.shape)
             self.success.append(f"Outliers dropped successfully")
         except Exception as e:
             self.failures.append(f"Error while handling outliers.")
@@ -298,7 +295,6 @@ class Cleaning():
             return True, max(counts, key=counts.get)
             
         except Exception as e:
-            print(traceback.format_exc())
             return False, ","
 
     def gera_df_csv(self, arqu) -> pd.DataFrame:
@@ -319,7 +315,6 @@ class Cleaning():
                 df = pd.read_csv(arqu, encoding="latin-1", sep=separador, low_memory=False,
                                             on_bad_lines='skip', lineterminator='\n')
                 encr = "latin-1"
-
             self.success.append(f"Encoding {encr} detected.")
 
             # excluding line where all fields are empty
@@ -328,15 +323,14 @@ class Cleaning():
             
             # verify if the file has empty lines before the data
             columns = df.columns.to_list()
-            if ("Unnamed" in str(columns[0])) or type(columns[0]) == float:
+            if type(columns[0]) == float:
                 self.failures.append(f"File has empty lines before the data.")
-                return self
+                return self.df
         except EmptyDataError:
             self.failures.append(f"File has an invalid delimiter.")
             return self.df
 
         except Exception as e:
-            print(traceback.format_exc())
             self.failures.append(f"Error while reading file.")
             return self.df
         
@@ -348,7 +342,6 @@ class Cleaning():
         return self.df
 
     def gera_df_xlsx(self, arqu) -> pd.DataFrame:
-        print("gerando df xlsx")
         '''
         gera um dataframe para cada arquivo passado para a instância  e concatena todos eles
         '''
@@ -357,7 +350,6 @@ class Cleaning():
         try:
             # lendo o arquivo passado
             df = pd.read_excel(arqu,engine='openpyxl', keep_default_na=False)
-            print("Ponto 1")
             df = df.dropna(how='all')
 
             # resolvendo problema de linhas vazias antes dos dados
@@ -394,8 +386,6 @@ class Cleaning():
         try:
             #verificando se o sep é ; ou ,
             separador = self.detect_separator(arqu)
-            print("separador: ", separador)
-
             try:
                 df = pd.read_table(arqu, encoding="utf-8", sep=separador, low_memory=False)
             except:
@@ -505,13 +495,11 @@ class Analytics():
         date_names = ["date", "year", "month", "day"]
         for col in columns:
             for name in date_names:
-                print(f"{col} - {name}")
                 if jellyfish.jaro_winkler_similarity(col.lower(), name) > 0.85:
                     date_columns.append(col)
                     break
         
         if len(date_columns) == 0:
-            print(f"No date columns found.")
             return False
         
         #getting numeric columns if it's name is not in the list of date columns
