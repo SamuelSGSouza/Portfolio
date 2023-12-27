@@ -5,6 +5,13 @@ from django.conf import settings
 from pandas.errors import EmptyDataError, ParserError
 import traceback
 from sklearn.preprocessing import MinMaxScaler
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
+import threading
+import jellyfish
+import base64
+
 
 class Cleaning():
     def __init__(self, file, filename, handle_null_values="Ignore", handle_outliers="Ignore", 
@@ -65,7 +72,6 @@ class Cleaning():
 
         return self.df, self.success, self.failures, self.saved_file_path
         
-       
     def save_file(self):
         try:
             #If the directory temp doesn't exist, create it
@@ -128,27 +134,70 @@ class Cleaning():
         try:
             #Set the types of the columns
             df = self.df
-            
-            #if one of the columns is a date, set the type to datetime
-            for col in df.columns:
-                if "date" in col.lower():
-                    df[col] = pd.to_datetime(df[col], errors='coerce')
-                    self.success.append(f"Column >{col}< set to datetime")
+            all_columns = df.columns.to_list()
+            rest_columns = df.columns.to_list()
 
             #if one of the columns is a number, set the type to float
-            for col in df.columns:
-                if "number" in col.lower():
-                    df[col] = pd.to_numeric(df[col], errors='coerce')
-                    self.success.append(f"Column >{col}< set to float")
+            for col in all_columns:
+                #getting the 5 first values of the column
+                first_values = df[col].head().to_list()
+                #verifying if the values are numbers
+                try:
+                    [float(i) for i in first_values]
 
+                    #verifying if the column is float or int by checking the first value
+                    if "." in str(first_values[0]):
+                        #verifying if the values end with .0
+                        verify = [str(value).endswith(".0") for value in first_values]
+                        if all(verify):
+                            df[col] = df[col].astype('Int64')
+                            self.success.append(f"Column >{col}< set to int")
+                            rest_columns.remove(col)
+                        else:
+                            df[col] = df[col].astype('float64')
+                            self.success.append(f"Column >{col}< set to float")
+                            rest_columns.remove(col)
+                             
+                    else:
+                        #setting the type to int
+                        df[col] = pd.to_numeric(df[col], errors='coerce').astype('Int64')
+                        self.success.append(f"Column >{col}< set to int")
+                        rest_columns.remove(col)
+
+                except:
+                    pass
+                    
+
+            all_columns = rest_columns
             #if one of the columns has less than 10 unique values, set the type to category
-            for col in df.columns:
-                if df[col].nunique() < 10:
+            for col in all_columns:
+                unique_values = df[col].nunique()
+                #if unique values are less than 20% of the total values, set the type to category
+                if unique_values < 30:
                     df[col] = df[col].astype('category')
                     self.success.append(f"Column >{col}< set to category")
+                    rest_columns.remove(col)
             
+            
+            
+
+            all_columns = rest_columns
+            #if one of the columns has the word date in it, set the type to datetime
+            for col in all_columns:
+                date_comum_names = [
+                    "data", "dt", "date", "dt_", "data_", "dt_nasc", "dt_nascimento", "dt_nasc_",
+                    "periodo", "period", "period_", "periodo_", "start_date", "end_date", "start", "end",
+                ]
+                for name in date_comum_names:
+                    if jellyfish.jaro_winkler_similarity(col.lower(), name) > 0.85:
+                        df[col] = pd.to_datetime(df[col], errors='coerce')
+                        self.success.append(f"Column >{col}< set to datetime")
+                        rest_columns.remove(col)
+                        break
+
             self.df = df
             self.success.append(f"Types set successfully")
+
 
         except Exception as e:
             self.failures.append(f"Error while setting types.")
@@ -385,3 +434,181 @@ class Cleaning():
             raise ParserError
         return response
     
+class Analytics():
+    def __init__(self, df):
+        self.df = df
+        self.success = []
+        self.failures = []
+        self.hist_images = []
+        self.boxplot_images = []
+        self.cor_matrix_image = ""
+
+    def main(self):
+        if self.df.empty:
+            self.failures.append(f"Dataframe is empty.")
+            return False
+        
+        #verifying if there are numeric columns
+        num_types = ['float64', 'int64', 'int32', 'float32']
+        numeric_columns = self.df.select_dtypes(include=num_types).columns.to_list()
+        if len(numeric_columns) == 0:
+            self.failures.append(f"No numeric columns found.")
+            return False
+        else:
+            self.generate_cor_matrix()
+            self.generate_boxplot_graphic()
+    
+        self.generate_hist_graphic()
+   
+    def generate_cor_matrix(self):
+        try:
+            #getting just the numeric columns
+            num_types = ['float64', 'int64', 'int32', 'float32']
+            df = self.df.select_dtypes(include=num_types)
+            #getting the correlation matrix
+            corr = df.corr()
+            #plotting the correlation matrix
+            plt.matshow(corr)
+            plt.xticks(range(len(corr.columns)), corr.columns, rotation=90)
+            plt.yticks(range(len(corr.columns)), corr.columns)
+            plt.colorbar()
+
+            self.success.append(f"Correlation matrix generated successfully")
+
+            #saving the plot
+            path = os.path.join(settings.MEDIA_ROOT, 'temp', f"correlation_matrix.png")
+            plt.savefig(path)
+
+            #closing the plot
+            plt.close()
+
+            #converting the image to base64
+            with open(path, "rb") as image_file:
+                encoded_string = base64.b64encode(image_file.read())
+                encoded_string = encoded_string.decode('utf-8')
+            #getting the image path
+            self.cor_matrix_image = encoded_string
+
+            #removing the image
+            os.remove(path)
+            return True
+        except Exception as e:
+            self.failures.append(f"Error while generating correlation matrix.")
+            return False
+
+    def generate_hist_graphic(self):
+        #verifying if there are date columns
+        date_columns = self.df.select_dtypes(include=['datetime64']).columns.to_list()
+        
+        #verifying if there are columns with similarity with "date", "year", "month", "day"
+        columns = self.df.columns.to_list()
+        date_names = ["date", "year", "month", "day"]
+        for col in columns:
+            for name in date_names:
+                print(f"{col} - {name}")
+                if jellyfish.jaro_winkler_similarity(col.lower(), name) > 0.85:
+                    date_columns.append(col)
+                    break
+        
+        if len(date_columns) == 0:
+            print(f"No date columns found.")
+            return False
+        
+        #getting numeric columns if it's name is not in the list of date columns
+        numeric_columns = []
+        num_types = ['float64', 'int64', 'int32', 'float32']
+        for col in self.df.select_dtypes(include=num_types).columns.to_list():
+            if col not in date_columns:
+                numeric_columns.append(col)
+
+        #iterating over the columns to draw an line plot for every date column
+        for date_col in date_columns:
+            for num_col in numeric_columns:
+                for cat_col in self.df.select_dtypes(include=["category"]).columns.to_list():
+                    try:
+                        # Create a figure and an axes.
+                        fig, ax = plt.subplots()
+                        fig.set_size_inches(15, 5)
+
+                        #removing the null values
+                        n_df = self.df.dropna(subset=[cat_col, num_col, date_col])
+                        n_df= n_df.sort_values(date_col)
+
+                        # Iterating over the groups
+                        for categoria, grupo in n_df.groupby(cat_col):
+                            ax.plot(grupo[date_col], grupo[num_col], label=categoria)
+
+                        # Add some axis labels
+                        ax.set_xlabel(date_col)
+                        ax.set_ylabel(num_col)
+
+                        # Add a legend
+                        ax.legend()
+
+                        #add a title
+                        ax.set_title(f"Line plot for Column {num_col} and Category {cat_col}")
+
+                        path = os.path.join(settings.MEDIA_ROOT, 'temp', f"hist_{date_col}_{num_col}_{cat_col}.png")
+
+                        #saving the plot
+                        plt.savefig(path)  
+
+                        #closing the plot
+                        plt.close()
+
+                        #converting the image to base64
+                        with open(path, "rb") as image_file:
+                            encoded_string = base64.b64encode(image_file.read())
+                            encoded_string = encoded_string.decode('utf-8')
+
+                        #getting the image path
+                        self.hist_images.append(encoded_string)
+
+                        #removing the image
+                        os.remove(path)
+                    except Exception as e:
+                        continue
+        self.success.append(f"Histograms generated successfully")
+        return True
+        
+    def generate_boxplot_graphic(self):
+        #iterating over the columns to make the boxplot for every numeric column
+        num_types = ['float64', 'int64', 'int32', 'float32']
+        category_columns = self.df.select_dtypes(include=["category"]).columns.to_list()
+        for col in self.df.select_dtypes(include=num_types).columns.to_list():
+            for cat_col in category_columns:
+                try:
+                    cat_df = self.df[self.df[cat_col].notna()]
+                    categories = cat_df[cat_col].unique()
+                    for category in categories:
+                        #verificando se a coluna é numérica
+                        if self.df[col].dtype in num_types:
+                            #gerando boxplot deitado
+                            figure = plt.figure(figsize=(8, 5))
+                            ax = figure.add_subplot(121)
+                            ax.boxplot(cat_df[cat_df[cat_col] == category][col],vert=False)
+                            ax.set_title(f"Boxplot for Column {col} and Category {category}")
+                            ax.set_xlabel(col)
+                            ax.set_ylabel("")
+
+                            path = os.path.join(settings.MEDIA_ROOT, 'temp', f"boxplot_{col}_{cat_col}_{category}.png")
+                            #saving the plot
+                            plt.savefig(path)
+                
+                            #converting the image to base64
+                            with open(path, "rb") as image_file:
+                                encoded_string = base64.b64encode(image_file.read())
+                                encoded_string = encoded_string.decode('utf-8')
+
+                            #getting the image path
+                            self.boxplot_images.append(encoded_string)
+
+                            #removing the image
+                            os.remove(path)
+
+                except Exception as e:
+                    self.failures.append(f"Error while generating boxplot for column {col}.")
+                    continue
+                
+        self.success.append(f"Boxplot for column {col} generated successfully")
+        return True
