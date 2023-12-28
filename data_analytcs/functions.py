@@ -45,7 +45,7 @@ class Cleaning():
         success = self.read_file()
         if not success:
             self.failures.append(f"Error while reading file.")
-            return self.df, self.success, self.failures
+            return self.df, self.success, self.failures, self.saved_file_path
 
 
         #limpando as colunas
