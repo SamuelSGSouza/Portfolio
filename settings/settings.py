@@ -74,15 +74,30 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+#senha docker mariaDB senha.mariadbA1
+#dbname docker mariaDB portfolio
+#username docker mariaDB django
+#password docker mariaDB django.senhaA1
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "portfolio",
+        "USER": "django",
+        "PASSWORD": "django.senhaA1",
+        "HOST": "144.126.222.126",
+        "PORT": "3306",
     }
 }
 
-
-# Password validation
+# Password validation 
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
