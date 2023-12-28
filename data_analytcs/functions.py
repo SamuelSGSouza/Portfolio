@@ -37,7 +37,7 @@ class Cleaning():
         file = self.save_file()
         if not file:
             self.failures.append(f"Error while saving file.")
-            return self.df, self.success, self.failures
+            return self.df, self.success, self.failures, self.saved_file_path
         
         self.saved_file_path = file
 
