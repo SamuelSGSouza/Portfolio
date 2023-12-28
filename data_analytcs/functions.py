@@ -29,7 +29,7 @@ class Cleaning():
         self.duplicates = handle_duplicates
         self.reescale = handle_reescale
 
-    def main(self) -> dict:
+    def main(self) -> None:
         '''
         This function is the main function of the class. It calls the other functions
         and returns a dict with the results
@@ -37,7 +37,7 @@ class Cleaning():
         file = self.save_file()
         if not file:
             self.failures.append(f"Error while saving file.")
-            return self.df, self.success, self.failures, self.saved_file_path
+            return None
         
         self.saved_file_path = file
 
@@ -45,7 +45,7 @@ class Cleaning():
         success = self.read_file()
         if not success:
             self.failures.append(f"Error while reading file.")
-            return self.df, self.success, self.failures, self.saved_file_path
+            return None
 
 
         #limpando as colunas
@@ -69,7 +69,7 @@ class Cleaning():
         self.saved_file_path = os.path.join(settings.MEDIA_ROOT, 'temp', self.filename)
         self.df.to_csv(self.saved_file_path, index=False, sep=";")
 
-        return self.df, self.success, self.failures, self.saved_file_path
+        return None
         
     def save_file(self):
         try:

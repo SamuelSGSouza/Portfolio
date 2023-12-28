@@ -39,13 +39,13 @@ class ShowCleanedDataView(PageView):
                             handle_duplicates=self.request.POST.get('handle_duplicates'),
                             handle_reescale=self.request.POST.get('handle_reescale'),
                             )
-        df, success, failures, filepath = cleaning.main()
-        self.request.session['file_path'] = filepath
+        cleaning.main()
+        self.request.session['file_path'] = cleaning.saved_file_path
 
-        context['columns'] = df.columns.to_list()
-        context['data'] = df.values.tolist()
-        context['success'] = success
-        context['failures'] = failures
+        context['columns'] = cleaning.df.columns.to_list()
+        context['data'] = cleaning.df.values.tolist()
+        context['success'] = cleaning.success
+        context['failures'] = cleaning.failures
 
         return context
     
@@ -80,10 +80,10 @@ class ShowDataAnalyticsView(PageView):
         cleaning = Cleaning(file=self.request.FILES['file_selected'], 
                             filename=self.request.FILES['file_selected'].name,
                             )
-        df, success, failures, filepath = cleaning.main()
-        self.request.session['file_path'] = filepath
+        cleaning.main()
+        self.request.session['file_path'] = cleaning.saved_file_path
 
-        analytics = Analytics(df=df)
+        analytics = Analytics(df=cleaning.df)
         analytics.main()
 
         context["success"] = analytics.success
