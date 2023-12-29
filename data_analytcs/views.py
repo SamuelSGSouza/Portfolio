@@ -81,7 +81,6 @@ class ShowDataAnalyticsView(PageView):
                             filename=self.request.FILES['file_selected'].name,
                             )
         cleaning.main()
-        self.request.session['file_path'] = cleaning.saved_file_path
 
         analytics = Analytics(df=cleaning.df)
         analytics.main()
