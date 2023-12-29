@@ -11,14 +11,13 @@ from matplotlib import pyplot as plt
 import threading
 import jellyfish
 import base64
-
+import io
 
 class Cleaning():
     def __init__(self, file, filename, handle_null_values="Ignore", handle_outliers="Ignore", 
                 handle_duplicates="Ignore", handle_reescale="No"):
         self.file = file
         self.filename = filename
-        self.saved_file_path = ""
         self.df = pd.DataFrame()
         self.primary_field = ""
         self.verbose_model = ""
@@ -36,11 +35,8 @@ class Cleaning():
         '''
         file = self.save_file()
         if not file:
-            self.failures.append(f"Error while saving file.")
             return None
         
-        self.saved_file_path = file
-
         #reading the file
         success = self.read_file()
         if not success:
@@ -65,48 +61,36 @@ class Cleaning():
         #handling reescale
         self.handle_reescale()
 
-        #re-saving the file
-        self.saved_file_path = os.path.join(settings.MEDIA_ROOT, 'temp', self.filename)
-        self.df.to_csv(self.saved_file_path, index=False, sep=";")
-
         return None
         
     def save_file(self):
         try:
-            #If the directory temp doesn't exist, create it
-            if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'temp')):
-                os.mkdir(os.path.join(settings.MEDIA_ROOT, 'temp'))
-
             #Saving the files in the directory temp
-            with open(os.path.join(settings.MEDIA_ROOT, 'temp', self.filename), 'wb+') as destination:
-                for chunk in self.file.chunks():
-                    destination.write(chunk)
-
-            file = os.path.join(settings.MEDIA_ROOT, 'temp', self.filename)
+            self.file =  "".join([chunk.decode('utf-8') for chunk in self.file.chunks()])
             self.success.append(f"File saved successfully")
-            return file
+            return True
         except Exception as e:
             self.failures.append(f"Error while saving file. {e}")
-            return None
+            return False
 
     def read_file(self) -> pd.DataFrame:
         
         try:
             #getting the extension of the file
-            ext = self.saved_file_path.split('.')[-1].lower()        
+            ext = self.filename.split(".")[-1]       
             if ext == 'csv':
-                self.df = self.gera_df_csv(self.saved_file_path)
+                self.df = self.gera_df_csv(io.StringIO(self.file))
             # elif ext == 'txt':
-            #     self.df = self.gera_df_txt(self.saved_file_path)
+            #     self.df = self.gera_df_txt(self.)
             # elif ext == 'xlsx' or ext == 'xls':
-            #     self.df = self.gera_df_xlsx(self.saved_file_path)
+            #     self.df = self.gera_df_xlsx(self.)
             else:
                 self.failures.append(f"File has an invalid extension.")
                 return False
             self.success.append(f"File read successfully")
             return True
         except Exception as e:
-            self.failures.append(f"Unknown error while reading file.")
+            self.failures.append(f"Unknown error while reading file. {e}")
             return False
             
     def clean_columns(self) -> dict:
@@ -274,12 +258,7 @@ class Cleaning():
             
     def detect_separator(self):
         try:
-            try:
-                with open(self.saved_file_path, 'r', encoding='utf-8') as f:
-                    line = f.readline().strip()
-            except UnicodeDecodeError:
-                with open(self.saved_file_path, 'r', encoding='latin-1') as f:
-                    line = f.readline().strip()
+            line = self.file.split('\n')[0]
 
             # Conta a ocorrência de cada delimitador na linha
             counts = {
@@ -295,6 +274,7 @@ class Cleaning():
             return True, max(counts, key=counts.get)
             
         except Exception as e:
+            print(e)
             return False, ","
 
     def gera_df_csv(self, arqu) -> pd.DataFrame:
@@ -307,14 +287,9 @@ class Cleaning():
             if not success:
                 self.failures.append(f"Error while detecting separator.")
                 return self.df
-            try:
-                df = pd.read_csv(arqu, encoding="utf-8", sep=separador, low_memory=False,
-                                            on_bad_lines='skip', lineterminator='\n')  # lendo o arquivo passado
-                encr = "utf-8"
-            except:
-                df = pd.read_csv(arqu, encoding="latin-1", sep=separador, low_memory=False,
-                                            on_bad_lines='skip', lineterminator='\n')
-                encr = "latin-1"
+            df = pd.read_csv(arqu, encoding="utf-8", sep=separador, low_memory=False,
+                                        on_bad_lines='skip', lineterminator='\n')  # lendo o arquivo passado
+            encr = "utf-8"
             self.success.append(f"Encoding {encr} detected.")
 
             # excluding line where all fields are empty
@@ -466,7 +441,7 @@ class Analytics():
             self.success.append(f"Correlation matrix generated successfully")
 
             #saving the plot
-            path = os.path.join(settings.MEDIA_ROOT, 'temp', f"correlation_matrix.png")
+            path = f"correlation_matrix.png"
             plt.savefig(path)
 
             #closing the plot
@@ -536,7 +511,7 @@ class Analytics():
                         #add a title
                         ax.set_title(f"Line plot for Column {num_col} and Category {cat_col}")
 
-                        path = os.path.join(settings.MEDIA_ROOT, 'temp', f"hist_{date_col}_{num_col}_{cat_col}.png")
+                        path = f"hist_{date_col}_{num_col}_{cat_col}.png"
 
                         #saving the plot
                         plt.savefig(path)  
@@ -579,7 +554,7 @@ class Analytics():
                             ax.set_xlabel(col)
                             ax.set_ylabel("")
 
-                            path = os.path.join(settings.MEDIA_ROOT, 'temp', f"boxplot_{col}_{cat_col}_{category}.png")
+                            path = f"boxplot_{col}_{cat_col}_{category}.png"
                             #saving the plot
                             plt.savefig(path)
                 

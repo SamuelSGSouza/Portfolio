@@ -40,12 +40,14 @@ class ShowCleanedDataView(PageView):
                             handle_reescale=self.request.POST.get('handle_reescale'),
                             )
         cleaning.main()
-        self.request.session['file_path'] = cleaning.saved_file_path
+        self.request.session['file'] = cleaning.file
 
         context['columns'] = cleaning.df.columns.to_list()
         context['data'] = cleaning.df.values.tolist()
         context['success'] = cleaning.success
         context['failures'] = cleaning.failures
+
+        
 
         return context
     
@@ -53,11 +55,9 @@ class ShowCleanedDataView(PageView):
         return render(request, self.template_name, self.get_context_data(**kwargs))
     
 def download_file(request):
-    file_path = request.session['file_path']
-    with open(file_path, 'rb') as fh:
-        response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-        response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
-        return response
+    response = HttpResponse(request.session['file'], content_type="application/vnd.ms-excel")
+    response['Content-Disposition'] = 'attachment; filename="cleaned_data.csv"'
+    return response
 
 
 ### DATA ANALYTICS ###
