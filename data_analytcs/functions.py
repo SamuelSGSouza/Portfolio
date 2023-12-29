@@ -86,7 +86,7 @@ class Cleaning():
             self.success.append(f"File saved successfully")
             return file
         except Exception as e:
-            self.failures.append(f"Error while saving file.")
+            self.failures.append(f"Error while saving file. {e}")
             return None
 
     def read_file(self) -> pd.DataFrame:
