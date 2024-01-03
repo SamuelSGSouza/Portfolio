@@ -458,7 +458,7 @@ class Analytics():
             os.remove(path)
             return True
         except Exception as e:
-            self.failures.append(f"Error while generating correlation matrix.")
+            self.failures.append(f"Error while generating correlation matrix. {e}")
             return False
 
     def generate_hist_graphic(self):
