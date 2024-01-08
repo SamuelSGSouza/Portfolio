@@ -1,0 +1,17 @@
+{% if messages %}
+    {% for message in messages %}
+        <!-- Message with dismiss button -->
+        <div class="alert alert-{{ message.tags }} alert-box" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <script>
+
+        //fazendo o alerta sumir depois de 5 segundos
+        setTimeout(function(){
+            //fazendo efeito de encolher
+            $('.alert-box').slideUp();
+        }, 5000);
+    </script>
+{% endif %}
+

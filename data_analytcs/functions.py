@@ -441,21 +441,17 @@ class Analytics():
             self.success.append(f"Correlation matrix generated successfully")
 
             #saving the plot
-            path = f"correlation_matrix.png"
-            plt.savefig(path)
+            image_stream = io.BytesIO()
+            plt.savefig(image_stream, format='png')
+            image_stream.seek(0)
+            encoded_string = base64.b64encode(image_stream.read()).decode('utf-8')
 
             #closing the plot
             plt.close()
 
-            #converting the image to base64
-            with open(path, "rb") as image_file:
-                encoded_string = base64.b64encode(image_file.read())
-                encoded_string = encoded_string.decode('utf-8')
             #getting the image path
             self.cor_matrix_image = encoded_string
 
-            #removing the image
-            os.remove(path)
             return True
         except Exception as e:
             self.failures.append(f"Error while generating correlation matrix. {e}")
@@ -511,24 +507,17 @@ class Analytics():
                         #add a title
                         ax.set_title(f"Line plot for Column {num_col} and Category {cat_col}")
 
-                        path = f"hist_{date_col}_{num_col}_{cat_col}.png"
-
-                        #saving the plot
-                        plt.savefig(path)  
+                        image_stream = io.BytesIO()
+                        plt.savefig(image_stream, format='png')
+                        image_stream.seek(0)
+                        encoded_string = base64.b64encode(image_stream.read()).decode('utf-8')
 
                         #closing the plot
                         plt.close()
 
-                        #converting the image to base64
-                        with open(path, "rb") as image_file:
-                            encoded_string = base64.b64encode(image_file.read())
-                            encoded_string = encoded_string.decode('utf-8')
-
                         #getting the image path
                         self.hist_images.append(encoded_string)
 
-                        #removing the image
-                        os.remove(path)
                     except Exception as e:
                         continue
         self.success.append(f"Histograms generated successfully")
@@ -546,6 +535,31 @@ class Analytics():
                     for category in categories:
                         #verificando se a coluna é numérica
                         if self.df[col].dtype in num_types:
+                            #verify if the data distribution is normal. If isn't, don't generate the boxplot
+                            if cat_df[cat_df[cat_col] == category][col].skew() > 1 or cat_df[cat_df[cat_col] == category][col].skew() < -1:
+                                continue
+
+                            #getting unique values
+                            unique_values = cat_df[cat_df[cat_col] == category][col].unique()
+                            if len(unique_values) < len(cat_df[cat_df[cat_col] == category][col])*0.1:
+                                continue
+
+                            #dividindo em quartis e verificando se há 10% de valores em cada quartil
+                            q1 = cat_df[cat_df[cat_col] == category][col].quantile(0.25)
+                            q2 = cat_df[cat_df[cat_col] == category][col].quantile(0.5)
+                            q3 = cat_df[cat_df[cat_col] == category][col].quantile(0.75)
+                            q4 = cat_df[cat_df[cat_col] == category][col].quantile(1)
+                            q1_count = len(cat_df[(cat_df[cat_col] == category) & (cat_df[col] < q1)])
+                            q2_count = len(cat_df[(cat_df[cat_col] == category) & (cat_df[col] < q2) & (cat_df[col] > q1)])
+                            q3_count = len(cat_df[(cat_df[cat_col] == category) & (cat_df[col] < q3) & (cat_df[col] > q2)])
+                            q4_count = len(cat_df[(cat_df[cat_col] == category) & (cat_df[col] < q4) & (cat_df[col] > q3)])
+
+                            if q1_count < len(cat_df[cat_df[cat_col] == category][col])*0.1 or q2_count < len(cat_df[cat_df[cat_col] == category][col])*0.1 or q3_count < len(cat_df[cat_df[cat_col] == category][col])*0.1 or q4_count < len(cat_df[cat_df[cat_col] == category][col])*0.1:
+                                continue
+
+
+
+
                             #gerando boxplot deitado
                             figure = plt.figure(figsize=(8, 5))
                             ax = figure.add_subplot(121)
@@ -554,24 +568,18 @@ class Analytics():
                             ax.set_xlabel(col)
                             ax.set_ylabel("")
 
-                            path = f"boxplot_{col}_{cat_col}_{category}.png"
-                            #saving the plot
-                            plt.savefig(path)
-                
-                            #converting the image to base64
-                            with open(path, "rb") as image_file:
-                                encoded_string = base64.b64encode(image_file.read())
-                                encoded_string = encoded_string.decode('utf-8')
-
+                            image_stream = io.BytesIO()
+                            plt.savefig(image_stream, format='png')
+                            image_stream.seek(0)
+                            encoded_string = base64.b64encode(image_stream.read()).decode('utf-8')
+                            
                             #getting the image path
                             self.boxplot_images.append(encoded_string)
 
-                            #removing the image
-                            os.remove(path)
-
+                            self.success.append(f"Boxplot for column {col} generated successfully")
                 except Exception as e:
                     self.failures.append(f"Error while generating boxplot for column {col}.")
                     continue
                 
-        self.success.append(f"Boxplot for column {col} generated successfully")
+        
         return True

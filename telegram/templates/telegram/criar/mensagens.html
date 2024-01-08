@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+ <div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+
+      {% include 'parcials/_aside_menu.html' %}
+      {% include 'parcials/_navbar.html' %}
+
+      <!-- / Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="row">
+            <div class="col-lg-12 mb-4 order-0">
+              <div class="card">
+                <div class="d-flex align-items-end row">
+                  <div class="col-sm-7">
+                    <div class="card-body">
+                      <h5 class="card-title text-primary">Mensagens Editáveis! <i class="menu-icon tf-icons bx bxl-telegram"></i></h5>
+                      <p class="mb-4">
+                        Suas mensagens podem conter variáveis que serão substituídas 
+                        por informações aleatorias. Clique no botão abaixo
+                        para ver quais variáveis estão disponíveis.
+                        
+                        </p>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalScrollable"
+                        >
+                          Tutorial
+                        </button>
+
+                    </div>
+                  </div>
+                  <div class="col-sm-5 text-center text-sm-left">
+                    <div class="card-body pb-0 px-0 px-md-4">
+                      <img
+                        src="{% static 'assets/img/illustrations/man-with-laptop-light.png' %}"
+                        height="140"
+                        alt="View Badge User"
+                        data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                        data-app-light-img="illustrations/man-with-laptop-light.png"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xxl">
+                <div class="card mb-4">
+                  <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Criar Nova Mensagem</h5>
+                  </div>
+                  <div class="card-body">
+                    <form action="" method="POST">
+                      {% csrf_token %}
+                      <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="basic-icon-default-company">Nome Da Mensagem</label>
+                        <div class="col-sm-10">
+                          <div class="input-group input-group-merge">
+                            <span id="basic-icon-default-company2" class="input-group-text"
+                              ><i class="bx bx-buildings"></i
+                            ></span>
+                            <input
+                              type="text"
+                              id="basic-icon-default-company"
+                              class="form-control"
+                              placeholder="Mensagem inicial"
+                              aria-label="Mensagem inicial"
+                              aria-describedby="basic-icon-default-company2"
+                              name="titulo"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label class="col-sm-2 form-label" for="basic-icon-default-message">Menssagem</label>
+                        <div class="col-sm-10">
+                          <div class="input-group input-group-merge">
+                            <span id="basic-icon-default-message2" class="input-group-text"
+                              ><i class="bx bx-comment"></i
+                            ></span>
+                            <textarea
+                              id="basic-icon-default-message"
+                              class="form-control"
+                              placeholder="Mensagem de Teste"
+                              aria-label="Mensagem de Teste"
+                              aria-describedby="basic-icon-default-message2"
+                              style="height: 150px"
+                              name="texto"
+                              required
+                            ></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                          <button type="submit" class="btn btn-primary">Criar</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- / Content -->
+
+        {% include 'parcials/_footer.html' %}
+
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalScrollableTitle">Comandos para inserção de variáveis</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body text-black">
+        <p>
+          O sistema de envio permite que você insira variáveis em suas mensagens, que serão
+          substituídas por informações aleatórias. As variáveis disponíveis são:
+          <strong>((nome))</strong>, <strong>((inteiro))</strong> e <strong>((decimal))</strong>.Abaixo você pode ver alguns exemplos de como usar
+          essas variáveis em suas mensagens.
+        </p>
+
+        <p class="mb-3">
+          <strong class="text-primary">Variável ((nome))</strong>
+          <br>
+          Quando essa variável for encontrada em uma mensagem, ela será substituída por um nome
+          aleatório gerado pelo sistema.
+
+          <br>
+          Por exemplo, se você escrever a seguinte mensagem:
+          <br>
+          <strong>Olá ((nome))! Tudo bem?</strong>
+
+          <br>
+          O sistema irá substituir a variável ((nome)) por um nome aleatório, e a mensagem
+          ficará assim:
+          <br>
+          <strong>Olá João! Tudo bem?</strong>
+        </p>
+
+        <p class="mb-3">
+          <strong class="text-primary">Variável ((inteiro))</strong>
+          <br>
+          Quando essa variável for encontrada em uma mensagem, ela será substituída por um
+          número inteiro aleatório gerado pelo sistema.
+
+          <br>
+          Por exemplo, se você escrever a seguinte mensagem:
+          <br>
+          <strong>Seu número da sorte é ((inteiro))</strong>
+
+          <br>
+          O sistema irá substituir a variável ((inteiro)) por um número inteiro aleatório, e a
+          mensagem ficará assim:
+          <br>
+          <strong>Seu número da sorte é 42</strong>
+
+          <br>
+          <br>
+          A variável ((inteiro)), por padrão irá gerar um número entre 1 e 10,
+          mas ela pode receber um parâmetro opcional, que é o número máximo e o
+          número mínimo que o sistema irá gerar. Por exemplo, se você escrever a seguinte
+          mensagem:
+          <br>
+          <strong>Seu número da sorte é ((inteiro(1,100)))</strong>
+
+          <br>
+          O sistema irá substituir a variável ((inteiro)) por um número inteiro aleatório entre
+          1 e 100, e a mensagem ficará assim:
+          <br>
+          <strong>Seu número da sorte é 42</strong>
+        </p>
+
+        <p>
+          <strong class="text-primary">Variável ((decimal))</strong>
+          <br>
+          Quando essa variável for encontrada em uma mensagem, ela será substituída por um
+          número decimal aleatório gerado pelo sistema.
+
+          <br>
+          Por exemplo, se você escrever a seguinte mensagem:
+          <br>
+          <strong>Seu número da sorte é ((decimal))</strong>
+
+          <br>
+          O sistema irá substituir a variável ((decimal)) por um número decimal aleatório, e a
+          mensagem ficará assim:
+          <br>
+          <strong>Seu número da sorte é 1.12</strong>
+
+          <br>
+          <br>
+          A variável ((decimal)), por padrão irá gerar um número entre 1 e 10,
+          mas ela pode receber um parâmetro opcional, que é o número máximo e o
+          número mínimo que o sistema irá gerar. Por exemplo, se você escrever a seguinte
+          mensagem:
+          <br>
+          <strong>Seu número da sorte é ((decimal(1,100)))</strong>
+
+          <br>
+          O sistema irá substituir a variável ((decimal)) por um número decimal aleatório entre
+          1 e 100, e a mensagem ficará assim:
+          <br>
+          <strong>Seu número da sorte é 42.12</strong>
+
+
+        </p>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

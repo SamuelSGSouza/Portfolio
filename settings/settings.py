@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from django.contrib.messages import constants as messages
 
 load_dotenv()
 
@@ -29,7 +30,6 @@ SECRET_KEY = 'django-insecure-q4sy-l1ih2$d#mqpvoc__sgmi%i$lw*rh&)a==6lt)d@-1ff_j
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") == "True"
-print(DEBUG)
 
 ALLOWED_HOSTS = ["144.126.222.126", "http://144.126.222.126", "127.0.0.1"]
 
@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'data_analytcs',
+    "telegram",
+    "auth_",
 ]
 
 MIDDLEWARE = [
@@ -149,3 +151,9 @@ MEDIA_URL = "media/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    messages.SUCCESS: 'success',
+}

@@ -1,956 +1,599 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-xl-12 col-sm-12">
-      <div class="card card-default p-3">
-        <h1 class="pb-3">Welcome to my Portfolio!</h1>
-        <p>Here you can find demonstrations of my work and abilities. Every section was built in order to showcase my skills and knowledge in the respective field. I hope you enjoy your stay! The source code for this website can be found on my <a href="https://github.com/SamuelSGSouza" target="_blank">GitHub</a>.</p>
-      </div>
-      
-    </div>
-  </div>
-
-
-  <div class="row">
-    <div class="col-xl-12">
-      
-      <!-- Income and Express -->
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Data Analytics</h2>
-          <p class="py-2">Here you can send your own dataset to be cleaned and analyzed. The results will be displayed in the form of graphs and tables.
-            Click <a href="{% url 'data_cleaning' %}">here</a> to get started!</p>
-          </p>
-
-        </div>
-        <div class="card-body">
-          <div class="chart-wrapper">
-            <div id="mixed-chart-1"></div>
-          </div>
-        </div>
-
-      </div>
-
-
-    </div>
-    <!-- <div class="col-xl-4">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Current Users</h2>
-          <span>Realtime</span>
-        </div>
-        <div class="card-body">
-          <div id="barchartlg2"></div>
-        </div>
-        <div class="card-footer bg-white py-4">
-          <a href="#" class="text-uppercase">Current Users Overview</a>
-        </div>
-      </div>
-    </div> -->
-  </div>
-
-
-  
-  <!-- Table Product -->
-  <!-- <div class="row">
-    <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Products Inventory</h2>
-          <div class="dropdown">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false"> Yearly Chart
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <table id="productsTable" class="table table-hover table-product" style="width:100%">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Product Name</th>
-                <th>ID</th>
-                <th>Qty</th>
-                <th>Variants</th>
-                <th>Committed</th>
-                <th>Daily Sale</th>
-                <th>Sold</th>
-                <th>In Stock</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-01.jpg" alt="Product Image">
-                </td>
-                <td>Coach Swagger</td>
-                <td>24541</td>
-                <td>27</td>
-                <td>1</td>
-                <td>2</td>
-                <td>
-                  <div id="tbl-chart-01"></div>
-                </td>
-                <td>4</td>
-                <td>18</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-02.jpg" alt="Product Image">
-                </td>
-                <td>Toddler Shoes, Gucci Watch</td>
-                <td>24542</td>
-                <td>18</td>
-                <td>7</td>
-                <td>5</td>
-                <td>
-                  <div id="tbl-chart-02"></div>
-                </td>
-                <td>1</td>
-                <td>14</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-03.jpg" alt="Product Image">
-                </td>
-                <td>Hat Black Suits</td>
-                <td>24543</td>
-                <td>20</td>
-                <td>3</td>
-                <td>7</td>
-                <td>
-                  <div id="tbl-chart-03"></div>
-                </td>
-                <td>6</td>
-                <td>26</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-04.jpg" alt="Product Image">
-                </td>
-                <td>Backpack Gents</td>
-                <td>24544</td>
-                <td>37</td>
-                <td>8</td>
-                <td>3</td>
-                <td>
-                  <div id="tbl-chart-04"></div>
-                </td>
-                <td>6</td>
-                <td>7</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-05.jpg" alt="Product Image">
-                </td>
-                <td>Speed 500 Ignite</td>
-                <td>24545</td>
-                <td>8</td>
-                <td>3</td>
-                <td>4</td>
-                <td>
-                  <div id="tbl-chart-05"></div>
-                </td>
-                <td>8</td>
-                <td>42</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-06.jpg" alt="Product Image">
-                </td>
-                <td>Olay</td>
-                <td>24546</td>
-                <td>19</td>
-                <td>6</td>
-                <td>6</td>
-                <td>
-                  <div id="tbl-chart-06"></div>
-                </td>
-                <td>79</td>
-                <td>12</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-07.jpg" alt="Product Image">
-                </td>
-                <td>Ledger Nano X</td>
-                <td>24547</td>
-                <td>61</td>
-                <td>46</td>
-                <td>18</td>
-                <td>
-                  <div id="tbl-chart-07"></div>
-                </td>
-                <td>76</td>
-                <td>36</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-08.jpg" alt="Product Image">
-                </td>
-                <td>Surface Laptop 2</td>
-                <td>24548</td>
-                <td>33</td>
-                <td>56</td>
-                <td>89</td>
-                <td>
-                  <div id="tbl-chart-08"></div>
-                </td>
-                <td>38</td>
-                <td>5</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-09.jpg" alt="Product Image">
-                </td>
-                <td>TIGI Bed Head Superstar Queen</td>
-                <td>24549</td>
-                <td>3</td>
-                <td>9</td>
-                <td>15</td>
-                <td>
-                  <div id="tbl-chart-09"></div>
-                </td>
-                <td>6</td>
-                <td>46</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-10.jpg" alt="Product Image">
-                </td>
-                <td>Wattbike Atom</td>
-                <td>24550</td>
-                <td>61</td>
-                <td>56</td>
-                <td>68</td>
-                <td>
-                  <div id="tbl-chart-10"></div>
-                </td>
-                <td>3</td>
-                <td>19</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-11.jpg" alt="Product Image">
-                </td>
-                <td>Smart Watch</td>
-                <td>24551</td>
-                <td>19</td>
-                <td>76</td>
-                <td>38</td>
-                <td>
-                  <div id="tbl-chart-11"></div>
-                </td>
-                <td>3</td>
-                <td>17</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-12.jpg" alt="Product Image">
-                </td>
-                <td>Magic Bullet Blender</td>
-                <td>24552</td>
-                <td>12</td>
-                <td>30</td>
-                <td>14</td>
-                <td>
-                  <div id="tbl-chart-12"></div>
-                </td>
-                <td>26</td>
-                <td>9</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-13.jpg" alt="Product Image">
-                </td>
-                <td>Kanana rucksack</td>
-                <td>24553</td>
-                <td>14</td>
-                <td>65</td>
-                <td>39</td>
-                <td>
-                  <div id="tbl-chart-13"></div>
-                </td>
-                <td>9</td>
-                <td>55</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-14.jpg" alt="Product Image">
-                </td>
-                <td>Copic Opaque White</td>
-                <td>24554</td>
-                <td>43</td>
-                <td>29</td>
-                <td>75</td>
-                <td>
-                  <div id="tbl-chart-14"></div>
-                </td>
-                <td>7</td>
-                <td>15</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-0">
-                  <img src="images/products/products-xs-15.jpg" alt="Product Image">
-                </td>
-                <td>Headphones</td>
-                <td>24555</td>
-                <td>17</td>
-                <td>6</td>
-                <td>7</td>
-                <td>
-                  <div id="tbl-chart-15"></div>
-                </td>
-                <td>6</td>
-                <td>98</td>
-                <td>
-                  <div class="dropdown">
-                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-
-
-            </tbody>
-          </table>
-
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-
-  <!-- <div class="row">
-    <div class="col-xl-4">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Top Customers</h2>
-        </div>
-        <div class="card-body">
-          <table class="table table-borderless table-thead-border">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th class="text-right">Income</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-dark font-weight-bold">Gunter Reich</td>
-                <td class="text-right">$2,560</td>
-              </tr>
-              <tr>
-                <td class="text-dark font-weight-bold">Anke Kirsch</td>
-                <td class="text-right">$1,720</td>
-              </tr>
-              <tr>
-                <td class="text-dark font-weight-bold">Karolina Beer</td>
-                <td class="text-right">$1,230</td>
-              </tr>
-              <tr>
-                <td class="text-dark font-weight-bold">Lucia Christ</td>
-                <td class="text-right">$875</td>
-              </tr>
-            </tbody>
-            <tfoot class="border-top">
-              <tr>
-                <td><a href="#" class="text-uppercase">See All</a></td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-
-    </div>
-    <div class="col-xl-8">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Sales by Country</h2>
-          <div id="country-sales-range" class="date-range">
-            <i class="mdi mdi-calendar"></i>&nbsp;
-            <span class="date-holder"></span>
-            <i class="mdi mdi-menu-down"></i>
-          </div>
-        </div>
-        <div class="card-body py-0" >
-          <div class="row pb-4">
-            <div class="col-lg-7 border-right-lg">
-              <div class="vec-map-wrapper" >
-                <div id="home-world" style="height: 100%; width: 100%;"></div>
-              </div>
-            </div>
-            <div class="col-lg-5">
-              <div class="chart-wrapper">
-                <div id="horizontal-bar-chart"></div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-<!-- <div class="row">
-  <div class="col-xl-8">
+ <div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
     
-      <div class="card card-default">
-        <div class="card-header align-items-center">
-          <h2 class="">Sales by Product</h2>
-          <a href="#" class="btn btn-primary btn-pill" data-toggle="modal" data-target="#modal-stock">Add Stock</a>
-        </div>
-        <div class="card-body">
-          <div class="tab-content">
-            <table id="product-sale" class="table table-product " style="width:100%">
-              <thead>
-                <tr>
-                  <th>Product Name</th>
-                  <th>Unit</th>
-                  <th>Amount</th>
-                  <th>%sold</th>
-                  <th class="th-width-250"></th>
-                </tr>
-              </thead>
-              <tbody>
 
-                <tr>
-                  <td>Coach Swagger</td>
-                  <td>134</td>
-                  <td>$24541</td>
-                  <td>35.28%</td>
-                  <td>
-                    <div class="progress progress-md rounded-0">
-                      <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70%" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-                </tr>
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
 
-                <tr>
-                  <td>Toddler Shoes</td>
-                  <td>119</td>
-                  <td>$20225</td>
-                  <td>27.05%</td>
-                  <td>
-                    <div class="progress progress-md rounded-0">
-                      <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55%" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-                </tr>
+      {% include 'parcials/_aside_menu.html' %}
+      {% include 'parcials/_navbar.html' %}
 
-                <tr>
-                  <td>Hat Black Suits</td>
-                  <td>101</td>
-                  <td>$17,290</td>
-                  <td>20.25%</td>
-                  <td>
-                    <div class="progress progress-md rounded-0">
-                      <div class="progress-bar" role="progressbar" style="width: 45%" aria-valuenow="45%" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-                </tr>
+      <!-- / Navbar -->
 
-                <tr>
-                  <td>Backpack Gents</td>
-                  <td>59</td>
-                  <td>$1150</td>
-                  <td>12.50%</td>
-                  <td>
-                    <div class="progress progress-md rounded-0">
-                      <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25%" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-                </tr>
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+        <!-- Content -->
 
-                <tr>
-                  <td>Speed 500 Ignite</td>
-                  <td>25</td>
-                  <td>$590</td>
-                  <td>02.10%</td>
-                  <td>
-                    <div class="progress progress-md rounded-0">
-                      <div class="progress-bar" role="progressbar" style="width: 10%" aria-valuenow="10%" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Earphone & Headphone</td>
-                  <td>23</td>
-                  <td>$450</td>
-                  <td>02%</td>
-                  <td>
-                    <div class="progress progress-md rounded-0">
-                      <div class="progress-bar" role="progressbar" style="width: 8%" aria-valuenow="8%" aria-valuemin="0"
-                        aria-valuemax="100"></div>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Gucci Watch</td>
-                  <td>32</td>
-                  <td>$554</td>
-                  <td>8%</td>
-                  <td>
-                    <div class="progress progress-md rounded-0">
-                      <div class="progress-bar" role="progressbar" style="width: 8%" aria-valuenow="8%" aria-valuemin="0"
-                        aria-valuemax="100"></div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-  </div>
-  <div class="col-xl-4">
-    
-        <div class="card card-default chat">
-          <div class="card-header">
-            <h2>Selena Wagner</h2>
-            <div class="dropdown dropdown-chat-state">
-              <button class="dropdown-toggle btn btn-primary btn-rounded-circle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
-                <i class="mdi mdi-account-alert"></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                <li>
-                  <a href="#" class="user-link">
-                    <img src="images/user/user-sm-01.jpg" alt="User Image">
-                    <span class="username">anna patuary
-                      <span class="badge badge-secondary">18</span>
-                    </span>
-                    <span class="state active">
-                      <i class="mdi mdi-circle-medium"></i>
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="user-link">
-                    <img src="images/user/user-sm-02.jpg" alt="User Image">
-                    <span class="username">riman Ghose
-                      <span class="badge badge-secondary">18</span>
-                    </span>
-                    <span class="state">
-                      1hrs
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="user-link">
-                    <img src="images/user/user-sm-03.jpg" alt="User Image">
-                    <span class="username">riman Ghose
-                      <span class="badge badge-secondary">18</span>
-                    </span>
-                    <span class="state">
-                      1hrs
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="user-link">
-                    <img src="images/user/user-sm-04.jpg" alt="User Image">
-                    <span class="username">riman Ghose
-                      <span class="badge badge-secondary">18</span>
-                    </span>
-                    <span class="state">
-                      1hrs
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="user-link">
-                    <img src="images/user/user-sm-05.jpg" alt="User Image">
-                    <span class="username">riman Ghose</span>
-                    <span class="state">15min</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="card-body pb-0" data-simplebar style="height: 363px;">
-            <div class="media media-chat">
-              <img src="images/user/user-sm-01.jpg" class="rounded-circle" alt="Avata Image">
-              <div class="media-body">
-                <div class="text-content">
-                  <span class="message">Hello my name is anna.</span>
-                  <time class="time">5 mins ago</time>
-                </div>
-              </div>
-            </div>
-
-            <div class="media media-chat media-chat-right">
-              <div class="media-body">
-                <div class="text-content">
-                  <span class="message">Hello i am Riman.</span>
-                  <time class="time">4 mins ago</time>
-                </div>
-                <div class="text-content">
-                  <span class="message">I want to know about yourself</span>
-                  <time class="time">3 mins ago</time>
-                </div>
-              </div>
-              <img src="images/user/user-sm-02.jpg" class="rounded-circle" alt="Avata Image">
-            </div>
-
-            <div class="media media-chat">
-              <img src="images/user/user-sm-01.jpg" class="rounded-circle" alt="Avata Image">
-              <div class="media-body">
-                <div class="text-content">
-                  <span class="message">Its had resolving otherwise she contented therefore.</span>
-                  <time class="time">1 mins ago</time>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="chat-footer">
-            <form>
-              <div class="input-group input-group-chat">
-                <div class="input-group-prepend">
-                  <span class="emoticon-icon mdi mdi-emoticon-happy-outline"></span>
-                </div>
-                <input type="text" class="form-control" aria-label="Text input with dropdown button">
-              </div>
-            </form>
-          </div>
-        </div>
-
-  </div>
-</div> -->
-
-<!-- Stock Modal -->
-<!-- <div class="modal fade modal-stock" id="modal-stock" aria-labelledby="modal-stock" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-    <form action="#">
-      <div class="modal-content">
-        <div class="modal-header align-items-center p3 p-md-5">
-          <h2 class="modal-title" id="exampleModalGridTitle">Add Stock</h2>
-          <div>
-            <button type="button" class="btn btn-light btn-pill mr-1 mr-md-2" data-dismiss="modal"> cancel </button>
-            <button type="submit" class="btn btn-primary  btn-pill" data-dismiss="modal"> save </button>
-          </div>
-
-        </div>
-        <div class="modal-body p3 p-md-5">
+        <div class="container-xxl flex-grow-1 container-p-y">
           <div class="row">
-            <div class="col-lg-8">
-              <h3 class="h5 mb-5">Product Information</h3>
-              <div class="form-group mb-5">
-                <label for="new-product">Product Title</label>
-                <input type="text" class="form-control" id="new-product" placeholder="Add Product">
-              </div>
-              <div class="form-row mb-4">
-                <div class="col">
-                  <label for="price">Price</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">$</span>
+            <div class="col-lg-8 mb-4 order-0">
+              <div class="card">
+                <div class="d-flex align-items-end row">
+                  <div class="col-sm-7">
+                    <div class="card-body">
+                      <h5 class="card-title text-primary">Congratulations John! 🎉</h5>
+                      <p class="mb-4">
+                        You have done <span class="fw-bold">72%</span> more sales today. Check your new badge in
+                        your profile.
+                      </p>
+
+                      <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
                     </div>
-                    <input type="text" class="form-control" id="price" placeholder="Price" aria-label="Price"
-                      aria-describedby="basic-addon1">
                   </div>
-                </div>
-                <div class="col">
-                  <label for="sale-price">Sale Price</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">$</span>
+                  <div class="col-sm-5 text-center text-sm-left">
+                    <div class="card-body pb-0 px-0 px-md-4">
+                      <img
+                        src="../assets/img/illustrations/man-with-laptop-light.png"
+                        height="140"
+                        alt="View Badge User"
+                        data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                        data-app-light-img="illustrations/man-with-laptop-light.png"
+                      />
                     </div>
-                    <input type="text" class="form-control" id="sale-price" placeholder="Sale Price" aria-label="SalePrice"
-                      aria-describedby="basic-addon1">
                   </div>
                 </div>
               </div>
-
-              <div class="product-type mb-3 ">
-                <label class="d-block" for="sale-price">Product Type <i class="mdi mdi-help-circle-outline"></i> </label>
-                <div>
-
-                  <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked="checked">
-                    <label class="custom-control-label" for="customRadio1">Physical Good</label>
-                  </div>
-
-                  <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadio2">Digital Good</label>
-                  </div>
-
-                  <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                    <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadio3">Service</label>
-                  </div>
-
-                </div>
-              </div>
-
-              <div class="editor">
-                <label class="d-block" for="sale-price">Description <i class="mdi mdi-help-circle-outline"></i></label>
-                <div id="standalone">
-                  <div id="toolbar">
-                    <span class="ql-formats">
-                      <select class="ql-font"></select>
-                      <select class="ql-size"></select>
-                    </span>
-                    <span class="ql-formats">
-                      <button class="ql-bold"></button>
-                      <button class="ql-italic"></button>
-                      <button class="ql-underline"></button>
-                    </span>
-                    <span class="ql-formats">
-                      <select class="ql-color"></select>
-                    </span>
-                    <span class="ql-formats">
-                      <button class="ql-blockquote"></button>
-                    </span>
-                    <span class="ql-formats">
-                      <button class="ql-list" value="ordered"></button>
-                      <button class="ql-list" value="bullet"></button>
-                      <button class="ql-indent" value="-1"></button>
-                      <button class="ql-indent" value="+1"></button>
-                    </span>
-                    <span class="ql-formats">
-                      <button class="ql-direction" value="rtl"></button>
-                      <select class="ql-align"></select>
-                    </span>
-                  </div>
-                </div>
-                <div id="editor"></div>
-
-                <div class="custom-control custom-checkbox d-inline-block mt-2">
-                  <input type="checkbox" class="custom-control-input" id="customCheck2">
-                  <label class="custom-control-label" for="customCheck2">Hide product from published site</label>
-                </div>
-
-              </div>
-
             </div>
-            <div class="col-lg-4">
-              <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFile" placeholder="please imgae here">
-                <span class="upload-image">Click here to <span class="text-primary">add product image.</span> </span>
+            <div class="col-lg-4 col-md-4 order-1">
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                          <img
+                            src="../assets/img/icons/unicons/chart-success.png"
+                            alt="chart success"
+                            class="rounded"
+                          />
+                        </div>
+                        <div class="dropdown">
+                          <button
+                            class="btn p-0"
+                            type="button"
+                            id="cardOpt3"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                      <span class="fw-semibold d-block mb-1">Profit</span>
+                      <h3 class="card-title mb-2">$12,628</h3>
+                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                          <img
+                            src="../assets/img/icons/unicons/wallet-info.png"
+                            alt="Credit Card"
+                            class="rounded"
+                          />
+                        </div>
+                        <div class="dropdown">
+                          <button
+                            class="btn p-0"
+                            type="button"
+                            id="cardOpt6"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                      <span>Sales</span>
+                      <h3 class="card-title text-nowrap mb-1">$4,679</h3>
+                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Total Revenue -->
+            <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
+              <div class="card">
+                <div class="row row-bordered g-0">
+                  <div class="col-md-8">
+                    <h5 class="card-header m-0 me-2 pb-3">Total Revenue</h5>
+                    <div id="totalRevenueChart" class="px-2"></div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card-body">
+                      <div class="text-center">
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-sm btn-outline-primary dropdown-toggle"
+                            type="button"
+                            id="growthReportId"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            2022
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">
+                            <a class="dropdown-item" href="javascript:void(0);">2021</a>
+                            <a class="dropdown-item" href="javascript:void(0);">2020</a>
+                            <a class="dropdown-item" href="javascript:void(0);">2019</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="growthChart"></div>
+                    <div class="text-center fw-semibold pt-3 mb-2">62% Company Growth</div>
+
+                    <div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
+                      <div class="d-flex">
+                        <div class="me-2">
+                          <span class="badge bg-label-primary p-2"><i class="bx bx-dollar text-primary"></i></span>
+                        </div>
+                        <div class="d-flex flex-column">
+                          <small>2022</small>
+                          <h6 class="mb-0">$32.5k</h6>
+                        </div>
+                      </div>
+                      <div class="d-flex">
+                        <div class="me-2">
+                          <span class="badge bg-label-info p-2"><i class="bx bx-wallet text-info"></i></span>
+                        </div>
+                        <div class="d-flex flex-column">
+                          <small>2021</small>
+                          <h6 class="mb-0">$41.2k</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/ Total Revenue -->
+            <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
+              <div class="row">
+                <div class="col-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                          <img src="../assets/img/icons/unicons/paypal.png" alt="Credit Card" class="rounded" />
+                        </div>
+                        <div class="dropdown">
+                          <button
+                            class="btn p-0"
+                            type="button"
+                            id="cardOpt4"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
+                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                      <span class="d-block mb-1">Payments</span>
+                      <h3 class="card-title text-nowrap mb-2">$2,456</h3>
+                      <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i> -14.82%</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                          <img src="../assets/img/icons/unicons/cc-primary.png" alt="Credit Card" class="rounded" />
+                        </div>
+                        <div class="dropdown">
+                          <button
+                            class="btn p-0"
+                            type="button"
+                            id="cardOpt1"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="cardOpt1">
+                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                      <span class="fw-semibold d-block mb-1">Transactions</span>
+                      <h3 class="card-title mb-2">$14,857</h3>
+                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.14%</small>
+                    </div>
+                  </div>
+                </div>
+                <!-- </div>
+<div class="row"> -->
+                <div class="col-12 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
+                        <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
+                          <div class="card-title">
+                            <h5 class="text-nowrap mb-2">Profile Report</h5>
+                            <span class="badge bg-label-warning rounded-pill">Year 2021</span>
+                          </div>
+                          <div class="mt-sm-auto">
+                            <small class="text-success text-nowrap fw-semibold"
+                              ><i class="bx bx-chevron-up"></i> 68.2%</small
+                            >
+                            <h3 class="mb-0">$84,686k</h3>
+                          </div>
+                        </div>
+                        <div id="profileReportChart"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          <div class="row">
+            <!-- Order Statistics -->
+            <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
+              <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between pb-0">
+                  <div class="card-title mb-0">
+                    <h5 class="m-0 me-2">Order Statistics</h5>
+                    <small class="text-muted">42.82k Total Sales</small>
+                  </div>
+                  <div class="dropdown">
+                    <button
+                      class="btn p-0"
+                      type="button"
+                      id="orederStatistics"
+                      data-bs-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="orederStatistics">
+                      <a class="dropdown-item" href="javascript:void(0);">Select All</a>
+                      <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                      <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex flex-column align-items-center gap-1">
+                      <h2 class="mb-2">8,258</h2>
+                      <span>Total Orders</span>
+                    </div>
+                    <div id="orderStatisticsChart"></div>
+                  </div>
+                  <ul class="p-0 m-0">
+                    <li class="d-flex mb-4 pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-primary"
+                          ><i class="bx bx-mobile-alt"></i
+                        ></span>
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <h6 class="mb-0">Electronic</h6>
+                          <small class="text-muted">Mobile, Earbuds, TV</small>
+                        </div>
+                        <div class="user-progress">
+                          <small class="fw-semibold">82.5k</small>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="d-flex mb-4 pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-success"><i class="bx bx-closet"></i></span>
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <h6 class="mb-0">Fashion</h6>
+                          <small class="text-muted">T-shirt, Jeans, Shoes</small>
+                        </div>
+                        <div class="user-progress">
+                          <small class="fw-semibold">23.8k</small>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="d-flex mb-4 pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-info"><i class="bx bx-home-alt"></i></span>
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <h6 class="mb-0">Decor</h6>
+                          <small class="text-muted">Fine Art, Dining</small>
+                        </div>
+                        <div class="user-progress">
+                          <small class="fw-semibold">849k</small>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="d-flex">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-secondary"
+                          ><i class="bx bx-football"></i
+                        ></span>
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <h6 class="mb-0">Sports</h6>
+                          <small class="text-muted">Football, Cricket Kit</small>
+                        </div>
+                        <div class="user-progress">
+                          <small class="fw-semibold">99</small>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!--/ Order Statistics -->
 
+            <!-- Expense Overview -->
+            <div class="col-md-6 col-lg-4 order-1 mb-4">
+              <div class="card h-100">
+                <div class="card-header">
+                  <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link active"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-tabs-line-card-income"
+                        aria-controls="navs-tabs-line-card-income"
+                        aria-selected="true"
+                      >
+                        Income
+                      </button>
+                    </li>
+                    <li class="nav-item">
+                      <button type="button" class="nav-link" role="tab">Expenses</button>
+                    </li>
+                    <li class="nav-item">
+                      <button type="button" class="nav-link" role="tab">Profit</button>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body px-0">
+                  <div class="tab-content p-0">
+                    <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
+                      <div class="d-flex p-4 pt-3">
+                        <div class="avatar flex-shrink-0 me-3">
+                          <img src="../assets/img/icons/unicons/wallet.png" alt="User" />
+                        </div>
+                        <div>
+                          <small class="text-muted d-block">Total Balance</small>
+                          <div class="d-flex align-items-center">
+                            <h6 class="mb-0 me-1">$459.10</h6>
+                            <small class="text-success fw-semibold">
+                              <i class="bx bx-chevron-up"></i>
+                              42.9%
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="incomeChart"></div>
+                      <div class="d-flex justify-content-center pt-4 gap-2">
+                        <div class="flex-shrink-0">
+                          <div id="expensesOfWeek"></div>
+                        </div>
+                        <div>
+                          <p class="mb-n1 mt-1">Expenses This Week</p>
+                          <small class="text-muted">$39 less than last week</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/ Expense Overview -->
+
+            <!-- Transactions -->
+            <div class="col-md-6 col-lg-4 order-2 mb-4">
+              <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                  <h5 class="card-title m-0 me-2">Transactions</h5>
+                  <div class="dropdown">
+                    <button
+                      class="btn p-0"
+                      type="button"
+                      id="transactionID"
+                      data-bs-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
+                      <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
+                      <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
+                      <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <ul class="p-0 m-0">
+                    <li class="d-flex mb-4 pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <img src="../assets/img/icons/unicons/paypal.png" alt="User" class="rounded" />
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1">Paypal</small>
+                          <h6 class="mb-0">Send money</h6>
+                        </div>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <h6 class="mb-0">+82.6</h6>
+                          <span class="text-muted">USD</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="d-flex mb-4 pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <img src="../assets/img/icons/unicons/wallet.png" alt="User" class="rounded" />
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1">Wallet</small>
+                          <h6 class="mb-0">Mac'D</h6>
+                        </div>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <h6 class="mb-0">+270.69</h6>
+                          <span class="text-muted">USD</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="d-flex mb-4 pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <img src="../assets/img/icons/unicons/chart.png" alt="User" class="rounded" />
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1">Transfer</small>
+                          <h6 class="mb-0">Refund</h6>
+                        </div>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <h6 class="mb-0">+637.91</h6>
+                          <span class="text-muted">USD</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="d-flex mb-4 pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <img src="../assets/img/icons/unicons/cc-success.png" alt="User" class="rounded" />
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1">Credit Card</small>
+                          <h6 class="mb-0">Ordered Food</h6>
+                        </div>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <h6 class="mb-0">-838.71</h6>
+                          <span class="text-muted">USD</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="d-flex mb-4 pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <img src="../assets/img/icons/unicons/wallet.png" alt="User" class="rounded" />
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1">Wallet</small>
+                          <h6 class="mb-0">Starbucks</h6>
+                        </div>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <h6 class="mb-0">+203.33</h6>
+                          <span class="text-muted">USD</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="d-flex">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <img src="../assets/img/icons/unicons/cc-warning.png" alt="User" class="rounded" />
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1">Mastercard</small>
+                          <h6 class="mb-0">Ordered Food</h6>
+                        </div>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <h6 class="mb-0">-92.45</h6>
+                          <span class="text-muted">USD</span>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!--/ Transactions -->
+          </div>
+        </div>
+        <!-- / Content -->
+
+        <!-- Footer -->
+        <footer class="content-footer footer bg-footer-theme">
+          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+            <div class="mb-2 mb-md-0">
+              ©
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              , made with ❤️ by
+              <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+            </div>
+            <div>
+              <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+              <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+
+              <a
+                href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+                target="_blank"
+                class="footer-link me-4"
+                >Documentation</a
+              >
+
+              <a
+                href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                target="_blank"
+                class="footer-link me-4"
+                >Support</a
+              >
+            </div>
+          </div>
+        </footer>
+        <!-- / Footer -->
+
+        <div class="content-backdrop fade"></div>
       </div>
-    </form>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
   </div>
-</div> -->
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
 {% endblock %}

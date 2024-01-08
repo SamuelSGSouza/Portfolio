@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("data_analytcs.urls")),
+    path("telegram/", include("telegram.urls")),
+    path("auth/", include("auth_.urls")),
 ]
 
 if settings.DEBUG:
