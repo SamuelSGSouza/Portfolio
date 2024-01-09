@@ -8,4 +8,5 @@ urlpatterns = [
 
     path('leads/', views.LeadsView.as_view(), name='telegram_leads'),
     path('leads/criar/', views.CreateLeadView.as_view(), name='telegram_create_lead'),
+    path('leads/delete', views.delete_lead, name='telegram_delete_lead'),
 ]

@@ -3,9 +3,11 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from . import models
+from .models import *
 from django.contrib import messages
 from django.http import JsonResponse
+from .functions import chamar_agendador
+chamar_agendador()
 
 class Dashboard(LoginRequiredMixin, TemplateView):
     template_name = 'telegram/dashboard.html'
@@ -16,6 +18,7 @@ class Dashboard(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title
         context['page_name'] = 'telegram_dashboard'
+        print("Chamei a task")
         return context
     
 class MensagensView(LoginRequiredMixin, ListView):
@@ -23,7 +26,7 @@ class MensagensView(LoginRequiredMixin, ListView):
     title = 'Mensagens'
     login_url = 'login_view'
     login_redirect_url = 'telegram_mensagens'
-    model = models.Mensagem
+    model = Mensagem
     ordering = ['-criado']
     context_object_name = 'mensagens'
     def get_context_data(self, **kwargs):
@@ -49,7 +52,7 @@ class CreateMessageView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         titulo = request.POST.get('titulo')
         texto = request.POST.get('texto')
-        models.Mensagem.objects.create(
+        Mensagem.objects.create(
             user=request.user,
             titulo=titulo,
             texto=texto
@@ -62,7 +65,7 @@ class LeadsView(LoginRequiredMixin, ListView):
     title = 'Leads'
     login_url = 'login_view'
     login_redirect_url = 'telegram_leads'
-    model = models.Lead
+    model = Lead
     context_object_name = 'leads'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -71,10 +74,9 @@ class LeadsView(LoginRequiredMixin, ListView):
 
         leads = super().get_queryset().filter(user=self.request.user)
         for lead in leads:
-            leadbodys = models.LeadBody.objects.filter(lead=lead).order_by('horario')
+            leadbodys = LeadBody.objects.filter(lead=lead).order_by('horario')
             for leadbody in leadbodys:
                 leadbody.mens = leadbody.mensagens.all().order_by('titulo')
-                print(leadbody.mens)
             lead.leadbodys = leadbodys
         context['leads'] = leads
 
@@ -90,7 +92,7 @@ class CreateLeadView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title
         context['page_name'] = 'telegram_leads'
-        messages = models.Mensagem.objects.filter(user=self.request.user)
+        messages = Mensagem.objects.filter(user=self.request.user)
         context['mensagens'] = messages
         return context
     
@@ -98,10 +100,9 @@ class CreateLeadView(LoginRequiredMixin, TemplateView):
         horarios = request.POST.get('horarios')
         #convertendo horarios de string para dicionario
         horarios = eval(horarios)
-        print(horarios)
         
         #verificando se o usuário já possui um Lead
-        lead = models.Lead.objects.filter(user=request.user)
+        lead = Lead.objects.filter(user=request.user)
 
         #TODO: DESCOMENTAR ESSAS LINHAS
         # if lead.exists():
@@ -110,22 +111,34 @@ class CreateLeadView(LoginRequiredMixin, TemplateView):
         #     return JsonResponse({'status': 'error'})
         
         #criando o lead
-        lead = models.Lead.objects.create(
+        lead = Lead.objects.create(
             user=request.user,
-            titulo=horarios['titulo']
+            titulo=horarios['titulo'],
+            chat=horarios['token_chat'],
+            bot_token=horarios['token_bot']
         )
         #tirando o titulo do dicionario
         del horarios['titulo']
+        del horarios['token_chat']
+        del horarios['token_bot']
+
+
         #criando os leadbodys
         for horario, mensagens in horarios.items():
-            print(horario)
-            leadbody = models.LeadBody.objects.create(
+            leadbody = LeadBody.objects.create(
                 horario=horario,
                 lead=lead
             )
             for mensagem in mensagens:
-                print(mensagem)
                 leadbody.mensagens.add(mensagem)
 
         messages.add_message(request, messages.SUCCESS, 'Lead criado com sucesso!')
         return JsonResponse({'status': 'success'})
+    
+def delete_lead(request):
+    lead_id = request.POST.get('id')
+    if Lead.objects.filter(lead_id=id).exists():
+        Lead.objects.filter(lead_id=id).delete()
+        return JsonResponse({'status': 'success', 'message': "Lead deletado com sucesso!"})
+    else:
+        return JsonResponse({'status': 'error', 'message': "Lead não encontrado!"})

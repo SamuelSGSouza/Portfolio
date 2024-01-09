@@ -16674,3 +16674,6 @@ html:not(.layout-footer-fixed) .content-wrapper {
 .card-shadow{
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3)
 }
+.exclude-icon:hover{
+  cursor: pointer;
+}
